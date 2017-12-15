@@ -889,6 +889,10 @@ def trans_generate(lang, modules, cr):
         # End of data for ir.model.data query results
 
     def push_constraint_msg(module, term_type, model, msg):
+        module = isinstance(module, unicode) and module or unicode(module, "utf-8")
+        term_type = isinstance(term_type, unicode) and term_type or unicode(term_type, "utf-8")
+        model = isinstance(model, unicode) and model or unicode(model, "utf-8")
+        msg = isinstance(msg, unicode) and msg or unicode(msg, "utf-8")
         if not callable(msg):
             push_translation(encode(module), term_type, encode(model), 0, msg)
 
@@ -994,8 +998,8 @@ def trans_generate(lang, modules, cr):
     # translate strings marked as to be translated
     Translation = env['ir.translation']
     for module, source, name, id, type, comments in sorted(to_translate):
-        trans = Translation._get_source(name, type, lang, source) if lang else ""
-        out.append((module, type, name, id, source, encode(trans) or '', comments))
+        trans = Translation._get_source(name, type, lang, source) if lang else u""
+        out.append((module, type, name, id, source, encode(trans) or u'', comments))
     return out
 
 
