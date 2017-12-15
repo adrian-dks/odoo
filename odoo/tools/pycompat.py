@@ -49,7 +49,7 @@ if PY2:
     def csv_writer(stream, **params):
         w = csv.writer(stream, **params)
         return _Writer(
-            writerow=lambda r: w.writerow([c.encode('utf-8') for c in r]),
+            writerow=lambda r: w.writerow([isinstance(c, unicode) and c.encode('utf-8') or str(c) for c in r]),
             writerows=lambda rs: w.writerows(
                 [c.encode('utf-8') for c in r]
                 for r in rs
